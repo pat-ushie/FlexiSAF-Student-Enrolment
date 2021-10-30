@@ -26,6 +26,6 @@ Assumptions
 
 I had to run with a couple of assumptions:
 
-(1) For a proper balance on my design, I had to create entities for User and Department along with their corresponding services.
+(1) For a proper balance on my design, I took the liberty of creating entities for User and Department along with their corresponding services.
 
 (2) Date format over the wire is required to follow the format: YYYY-MM-dd:hh:mm to align with the example given in the challenge.
