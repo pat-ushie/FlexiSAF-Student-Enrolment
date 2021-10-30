@@ -1,6 +1,10 @@
-# FlexiSAF-Student-Enrolment
-Welcome to FlexiSAF Student Enrollment System
-==============================================
+Welcome to FlexiSAF Student Enrollment System (SES)
+===================================================
+
+The system provides a REST web service endpoint interface for the creation, update, retrieval, and deletion of student records.
+The system also provides a service for sending birthday messages to students who are celebrating their birthdays. The system is built 
+on JAX RS technology, and features other frameworks and libraries such as JavaMail, JPA, and EJB 3. The API documentation can be found
+in <Project-Folder>/dist/docs/
 
 To run the application, you need a Java application server like Glassfish, JBoss Wildfly, Paraya, etc. 
 It has been tested on Glassfish 4.1 and 5. The procedure for running the application is as follows:
