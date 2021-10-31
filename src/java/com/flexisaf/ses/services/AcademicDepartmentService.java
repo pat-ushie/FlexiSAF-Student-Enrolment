@@ -8,7 +8,7 @@ package com.flexisaf.ses.services;
 
 import com.flexisaf.ses.entities.AcademicDepartmentEntity;
 import com.flexisaf.ses.entities.UserAccountEntity;
-import com.flexisaf.ses.student.handlers.AcademicDepartmentHandler;
+import com.flexisaf.ses.department.handlers.AcademicDepartmentHandler;
 import com.flexisaf.ses.utils.CommonAdapterUtil;
 import com.google.gson.Gson;
 import java.io.Serializable;

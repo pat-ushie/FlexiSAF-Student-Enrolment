@@ -55,7 +55,7 @@ public class StudentCreateTest implements Serializable {
         student.setLastName("Eyoloze");
         student.setFirstName("Charles");
         student.setOtherName("Adams");
-        student.setEmailAddress("patrick.aniah@rsdynamix.com");
+        student.setEmailAddress("charles.eyoloze@gmail.com");
         student.setCreatorUserID(1);
         
         Calendar calendar = Calendar.getInstance();
@@ -85,6 +85,229 @@ public class StudentCreateTest implements Serializable {
 
             if (httpResponse.getStatusLine().getStatusCode() == 200) {
                 assertEquals(Long.parseLong(jsonFromResponse) > 0, true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testUnderAgedStudentCreation() {
+        Gson gson = CommonAdapterUtil
+                .getNullSafeGson(CommonAdapterUtil.DATE_FORMAT_MOBILE_STANDARD);
+
+        StudentEntity student = new StudentEntity();
+        student.setLastName("Adamu");
+        student.setFirstName("Mathias");
+        student.setOtherName("Osaze");
+        student.setEmailAddress("mathias.adamu@gmail.com");
+        student.setCreatorUserID(1);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 15);
+        calendar.set(Calendar.MONTH, 6);
+        calendar.set(Calendar.YEAR, 2015);
+        
+        student.setDateOfBirth(calendar.getTime());
+        
+        student.setGenderType(GenderType.MALE);
+        student.setDepartmentID(51);
+
+        UserAccountEntity userAccount = new UserAccountEntity();
+        userAccount.setUserName("john.doe");
+        userAccount.setPassword("Password1234");
+        userAccount.setUserAccountID(1);
+
+        try {
+            HttpUriRequest request = new HttpPost(
+                    "http://localhost:8080/StudentEnrolmentSystem/webresources/StudentEnrolmentService/saveStudent?recordJson="
+                    + URLEncoder.encode(gson.toJson(student), "UTF-8") + "&userAcctJson=" + URLEncoder.encode(gson.toJson(userAccount), "UTF-8"));
+
+            HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+            String jsonFromResponse = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println("++++++++++++++++++++++++ jsonFromResponse ==>> " + jsonFromResponse);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                assertEquals(jsonFromResponse.equalsIgnoreCase("This student is too young to enrol."), true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testOverAgedStudentCreation() {
+        Gson gson = CommonAdapterUtil
+                .getNullSafeGson(CommonAdapterUtil.DATE_FORMAT_MOBILE_STANDARD);
+
+        StudentEntity student = new StudentEntity();
+        student.setLastName("Oladimeji");
+        student.setFirstName("Olusolape");
+        student.setOtherName("Olanrewaju");
+        student.setEmailAddress("olusola.dimeji@gmail.com");
+        student.setCreatorUserID(1);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 25);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.YEAR, 1985);
+        
+        student.setDateOfBirth(calendar.getTime());
+        
+        student.setGenderType(GenderType.MALE);
+        student.setDepartmentID(51);
+
+        UserAccountEntity userAccount = new UserAccountEntity();
+        userAccount.setUserName("john.doe");
+        userAccount.setPassword("Password1234");
+        userAccount.setUserAccountID(1);
+
+        try {
+            HttpUriRequest request = new HttpPost(
+                    "http://localhost:8080/StudentEnrolmentSystem/webresources/StudentEnrolmentService/saveStudent?recordJson="
+                    + URLEncoder.encode(gson.toJson(student), "UTF-8") + "&userAcctJson=" + URLEncoder.encode(gson.toJson(userAccount), "UTF-8"));
+
+            HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+            String jsonFromResponse = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println("++++++++++++++++++++++++ jsonFromResponse ==>> " + jsonFromResponse);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                assertEquals(jsonFromResponse.equalsIgnoreCase("This student is too old to enrol."), true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testStudentCreationWithInvalidGender() {
+        Gson gson = CommonAdapterUtil
+                .getNullSafeGson(CommonAdapterUtil.DATE_FORMAT_MOBILE_STANDARD);
+
+        StudentEntity student = new StudentEntity();
+        student.setLastName("Oladimeji");
+        student.setFirstName("Olusolape");
+        student.setOtherName("Olanrewaju");
+        student.setEmailAddress("olusola.dimeji@gmail.com");
+        student.setCreatorUserID(1);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 25);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.YEAR, 2001);
+        
+        student.setDateOfBirth(calendar.getTime());
+        
+        student.setGenderType(GenderType.NONE);
+        student.setDepartmentID(51);
+
+        UserAccountEntity userAccount = new UserAccountEntity();
+        userAccount.setUserName("john.doe");
+        userAccount.setPassword("Password1234");
+        userAccount.setUserAccountID(1);
+
+        try {
+            HttpUriRequest request = new HttpPost(
+                    "http://localhost:8080/StudentEnrolmentSystem/webresources/StudentEnrolmentService/saveStudent?recordJson="
+                    + URLEncoder.encode(gson.toJson(student), "UTF-8") + "&userAcctJson=" + URLEncoder.encode(gson.toJson(userAccount), "UTF-8"));
+
+            HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+            String jsonFromResponse = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println("++++++++++++++++++++++++ jsonFromResponse ==>> " + jsonFromResponse);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                assertEquals(jsonFromResponse.equalsIgnoreCase("The Specified Gender Type Is Invalid"), true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testStudentCreationWithoutDepartment() {
+        Gson gson = CommonAdapterUtil
+                .getNullSafeGson(CommonAdapterUtil.DATE_FORMAT_MOBILE_STANDARD);
+
+        StudentEntity student = new StudentEntity();
+        student.setLastName("Oladimeji");
+        student.setFirstName("Olusolape");
+        student.setOtherName("Olanrewaju");
+        student.setEmailAddress("olusola.dimeji@gmail.com");
+        student.setCreatorUserID(1);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 25);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.YEAR, 2001);
+        
+        student.setDateOfBirth(calendar.getTime());
+        
+        student.setGenderType(GenderType.MALE);
+
+        UserAccountEntity userAccount = new UserAccountEntity();
+        userAccount.setUserName("john.doe");
+        userAccount.setPassword("Password1234");
+        userAccount.setUserAccountID(1);
+
+        try {
+            HttpUriRequest request = new HttpPost(
+                    "http://localhost:8080/StudentEnrolmentSystem/webresources/StudentEnrolmentService/saveStudent?recordJson="
+                    + URLEncoder.encode(gson.toJson(student), "UTF-8") + "&userAcctJson=" + URLEncoder.encode(gson.toJson(userAccount), "UTF-8"));
+
+            HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+            String jsonFromResponse = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println("++++++++++++++++++++++++ jsonFromResponse ==>> " + jsonFromResponse);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                assertEquals(jsonFromResponse.equalsIgnoreCase("Department Not Specified For This Student."), true);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testStudentCreationWithInvalidEmailAddress() {
+        Gson gson = CommonAdapterUtil
+                .getNullSafeGson(CommonAdapterUtil.DATE_FORMAT_MOBILE_STANDARD);
+
+        StudentEntity student = new StudentEntity();
+        student.setLastName("Oladimeji");
+        student.setFirstName("Olusolape");
+        student.setOtherName("Olanrewaju");
+        student.setEmailAddress("olusola.dimeji.com");
+        student.setCreatorUserID(1);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 25);
+        calendar.set(Calendar.MONTH, 9);
+        calendar.set(Calendar.YEAR, 2001);
+        
+        student.setDateOfBirth(calendar.getTime());
+        
+        student.setGenderType(GenderType.MALE);
+
+        UserAccountEntity userAccount = new UserAccountEntity();
+        userAccount.setUserName("john.doe");
+        userAccount.setPassword("Password1234");
+        userAccount.setUserAccountID(1);
+
+        try {
+            HttpUriRequest request = new HttpPost(
+                    "http://localhost:8080/StudentEnrolmentSystem/webresources/StudentEnrolmentService/saveStudent?recordJson="
+                    + URLEncoder.encode(gson.toJson(student), "UTF-8") + "&userAcctJson=" + URLEncoder.encode(gson.toJson(userAccount), "UTF-8"));
+
+            HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+            String jsonFromResponse = EntityUtils.toString(httpResponse.getEntity());
+            System.out.println("++++++++++++++++++++++++ jsonFromResponse ==>> " + jsonFromResponse);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                assertEquals(jsonFromResponse.equalsIgnoreCase("Invalid Email: The Email Format Is Wrong"), true);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

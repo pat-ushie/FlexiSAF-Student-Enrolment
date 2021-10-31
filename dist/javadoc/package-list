@@ -1,9 +1,0 @@
-com.flexisaf.ses.eao
-com.flexisaf.ses.entities
-com.flexisaf.ses.exceptions
-com.flexisaf.ses.servicelocator
-com.flexisaf.ses.services
-com.flexisaf.ses.student.handlers
-com.flexisaf.ses.tests
-com.flexisaf.ses.user.handlers
-com.flexisaf.ses.utils
